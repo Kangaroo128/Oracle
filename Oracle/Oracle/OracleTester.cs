@@ -8,7 +8,7 @@ using System.Speech.Synthesis;
 
 namespace Oracle
 {
-    class Program
+    class OracleTester
     {
         static void Main(string[] args)
         {
