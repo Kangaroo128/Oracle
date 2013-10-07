@@ -12,12 +12,19 @@ namespace Oracle.WebInteractions
 
         public static string ReadArticle(string title)
         {
-            string encodedTitle = WebUtility.HtmlEncode(title);
-            string address = string.Format(wikiAddress, encodedTitle);
-            string resultString = WebMethods.ExecuteWebRequest(address);
+            try
+            {
+                string encodedTitle = WebUtility.HtmlEncode(title);
+                string address = string.Format(wikiAddress, encodedTitle);
+                string resultString = WebMethods.ExecuteWebRequest(address);
 
-            string parsedArticle = ParseWikipediaArticle(resultString);
-            return parsedArticle;
+                string parsedArticle = ParseWikipediaArticle(resultString);
+                return parsedArticle;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -35,14 +42,17 @@ namespace Oracle.WebInteractions
 
             //Currently, xpath is set to load first child paragraph of content text div.
             HtmlNode firstParagraph = doc.DocumentNode.SelectSingleNode("//div[@id='mw-content-text']/p");
-            htmlText = firstParagraph.InnerText;
+            if (firstParagraph != null)
+            {
+                htmlText = firstParagraph.InnerText;
 
-            htmlText = WebUtility.HtmlDecode(htmlText);
+                htmlText = WebUtility.HtmlDecode(htmlText);
 
-            //Remove all subscripts and superscripts from text.
-            //Example match: [1]
-            Regex scriptRegex = new Regex("\\[(.*?)\\]");
-            htmlText = scriptRegex.Replace(htmlText, string.Empty);
+                //Remove all subscripts and superscripts from text.
+                //Example match: [1]
+                Regex scriptRegex = new Regex("\\[(.*?)\\]");
+                htmlText = scriptRegex.Replace(htmlText, string.Empty);
+            }
 
             return htmlText;
         }

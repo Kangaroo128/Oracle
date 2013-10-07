@@ -54,6 +54,7 @@
     <Compile Include="WebMethods.cs" />
     <Compile Include="Wikipedia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wiktionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

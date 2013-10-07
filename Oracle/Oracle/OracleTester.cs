@@ -12,19 +12,27 @@ namespace Oracle
     {
         static void Main(string[] args)
         {
-            string articleText = WebInteractions.Wikipedia.ReadArticle("Texas Toast");
-
             //Initialize a new instance of the SpeechSynthesizer.
             SpeechSynthesizer synth = new SpeechSynthesizer();
 
             //Select a voice.
             synth.SelectVoiceByHints(VoiceGender.Female);
 
+            synth.Rate = -2;
+
             //Configure the audio output.
             synth.SetOutputToDefaultAudioDevice();
 
-            //Speak a text string synchronously.
-            synth.Speak(articleText);
+            //Speak text string synchronously.
+            string articleText = WebInteractions.Wiktionary.ReadArticle("test");
+            if (articleText != null)
+            {
+                synth.Speak(articleText);
+            }
+            else
+            {
+                synth.Speak("I could not locate any information on that topic.");
+            }
         }
     }
 }
